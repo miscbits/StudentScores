@@ -14,12 +14,6 @@ use GuzzleHttp\Handler\MockHandler;
 class TravisCIServiceTest extends TestCase
 {
 
-    public setUp() {
-        parent::setUp();
-
-        $this.apple = "apple";
-    }
-
     public function testGetUser() {
         $mock = new MockHandler([
             new Response(200, [], '["@href" => "/user/696017","@permissions" => ["read" => true,"sync" => true],"@representation" => "standard","@type" => "user","avatar_url" => "https =>//avatars0.githubusercontent.com/u/8864479?v=4","github_id" => 8864479,"id" => 696017,"is_syncing" => false,"login" => "miscbits","name" => "Wilhem Alcivar","synced_at" => "2018-02-16T19:12:02Z"]'),
@@ -57,7 +51,7 @@ class TravisCIServiceTest extends TestCase
 
         $builds = $travisService->getRepoBuilds("Zipcoder/exam1");
 
-        $this->assertTrue($builds['builds']->count() == 6);
+        $this->assertTrue($builds['count'] == 6);
     }
 
     public function testGetRepoBuildsPullRequests() {
@@ -69,7 +63,7 @@ class TravisCIServiceTest extends TestCase
 
         $builds = $travisService->getRepoBuildsPullRequests("Zipcoder/exam1");
 
-        $this->assertTrue($builds['builds']->count() == 1);
+        $this->assertTrue(count($builds['count']) == 1);
     }
 
     public function testGetJob() {
