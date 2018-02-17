@@ -71,11 +71,11 @@ class TravisCIService {
     public function getRepoBuildsPullRequests($repo_name) {
         $repos = $this->getRepoBuilds($repo_name);
 
-        $repo_builds = collect($repos["builds"])->filter(function($build) {
-            return $build['event_type'] == 'pull_request';
+        $repo_builds = collect($repos->builds)->filter(function($build) {
+            return $build->event_type == 'pull_request';
         })->toArray();
 
-        $repos["builds"] = $repo_builds;
+        $repos->builds = $repo_builds;
 
         return $repos;
     }
@@ -105,6 +105,8 @@ class TravisCIService {
 
         $matches = [];
 
-        preg_match('/Tests run: \\d{1,2}, Failures: \\d{1,2}, Errors: \\d{1,2}/', $job_log['content'], $matches);
+        preg_match('/Tests run: \\d{1,2}, Failures: \\d{1,2}, Errors: \\d{1,2}/', $job_log->content, $matches);
+
+        return $job_log;
     }
 }
