@@ -80,15 +80,15 @@ class TravisCIServiceTest extends TestCase
 
     public function testGetJobLog() {
         $mock = new MockHandler([
-            new Response(200, [], json_encode(["@type" => "log","@href" => "/job/342414920/log","@representation" => "standard","@permissions" => ["read" => true,"debug" => false,"cancel" => false,"restart" => false,"delete_log" => false],"id" => 249889958,"content" => "","log_parts" => [["content" => "","final" => true,"number" => 0]],"@raw_log_href" => "/v3/job/342414920/log.txt"])),
+            new Response(200, [], json_encode(["@type" => "log","@href" => "/job/342414920/log","@representation" => "standard","@permissions" => ["read" => true,"debug" => false,"cancel" => false,"restart" => false,"delete_log" => false],"id" => 249889958,"content" => "Tests run: 2, Failures: 0, Errors: 0\nTests run: 2, Failures: 0, Errors: 0\nTests run: 2, Failures: 1, Errors: 0\nTests run: 2, Failures: 1, Errors: 0","log_parts" => [["content" => "","final" => true,"number" => 0]],"@raw_log_href" => "/v3/job/342414920/log.txt"])),
         ]);
         $handler = HandlerStack::create($mock);
         $travisService = new TravisCIService(new Client(['handler' => $handler]));
 
         $job_log = $travisService->getJobLog("342414920");
 
-        $this->assertTrue($job_log->total_tests == 4);
-        $this->assertTrue($job_log->tests_passed == 3);
+        $this->assertTrue($job_log->total_tests == 8);
+        $this->assertTrue($job_log->tests_passed == 6);
     }
 
 }

@@ -104,9 +104,19 @@ class TravisCIService {
         $job_log = json_decode($response->getBody());
 
         $matches = [];
+        $total_tests = 0;
+        $tests_passed = 0;
+        $offset = 0;
 
-        preg_match('/Tests run: \\d{1,2}, Failures: \\d{1,2}, Errors: \\d{1,2}/', $job_log->content, $matches);
+        while(preg_match('/Tests run: (\\d{1,2}), Failures: (\\d{1,2}), Errors: (\\d{1,2})/', $job_log->content, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+            $total_tests += (int)$matches[1][0];
+            $tests_passed += (int)$matches[1][0] - (int)$matches[2][0] - (int)$matches[3][0];
+            $offset = $matches[3][1];
+        }
 
+        $job_log->total_tests = $total_tests;
+        $job_log->tests_passed = $tests_passed;
+                
         return $job_log;
     }
 }
