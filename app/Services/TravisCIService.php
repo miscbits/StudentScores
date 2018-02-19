@@ -119,4 +119,18 @@ class TravisCIService {
                 
         return $job_log;
     }
+
+    /**
+     * GetJobLog
+     *
+     * @return Collection
+     */
+    public function getReposFromUser($user_name) {
+        $request = new Request('GET', '/owner/' . $user_name . '/repos');
+        $response = $this->guzzle->send($request, $this->config);
+
+        return json_decode($response->getBody());
+    }
+
+
 }

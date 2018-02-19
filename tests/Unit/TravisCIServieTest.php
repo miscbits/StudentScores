@@ -91,4 +91,19 @@ class TravisCIServiceTest extends TestCase
         $this->assertTrue($job_log->tests_passed == 6);
     }
 
+    public function testGetReposFromUser() {
+        $user = "Zipcoder";
+
+        $mock = new MockHandler([
+            new Response(200, [], json_encode(["@type" => "repositories","@href" => "/owner/zipcoder/repos","@representation" => "standard","@pagination" => ["limit" => 100,"offset" => 0,"count" => 196,"is_first" => true,"is_last" => false,"next" => ["@href" => "/owner/zipcoder/repos?limit=100&offset=100","offset" => 100,"limit" => 100],"prev" => null,"first" => ["@href" => "/owner/zipcoder/repos","offset" => 0,"limit" => 100],"last" => ["@href" => "/owner/zipcoder/repos?limit=100&offset=100","offset" => 100,"limit" => 100]],"repositories" => [["@type" => "repository","@href" => "/repo/17724819","@representation" => "standard","@permissions" => ["read" => true,"admin" => true,"activate" => true,"deactivate" => true,"star" => true,"unstar" => true,"create_cron" => true,"create_env_var" => true,"create_key_pair" => true,"delete_key_pair" => true,"create_request" => true],"id" => 17724819,"name" => "ZipCodeWilmington-Cohort-4.0-Java-Assessment-1","slug" => "Zipcoder/ZipCodeWilmington-Cohort-4.0-Java-Assessment-1","description" => null,"github_language" => null,"active" => true,"private" => false,"owner" => ["@type" => "organization","id" => 221543,"login" => "Zipcoder","@href" => "/org/221543"],"default_branch" => ["@type" => "branch","@href" => "/repo/17724819/branch/master","@representation" => "minimal","name" => "master"],"starred" => false]]])),
+        ]);
+        $handler = HandlerStack::create($mock);
+        $travisService = new TravisCIService(new Client(['handler' => $handler]));
+
+        $repos = $travisService->getReposFromUser($user);
+
+        $this->assertTrue(is_array($repos->repositories));
+
+    }
+
 }

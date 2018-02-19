@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Services\TravisCIService;
 use Illuminate\Http\Request;
+use Config;
 
 class TravisCIController extends Controller
 {
     public function __construct(TravisCIService $service) {
         $this->service = $service;
+    }
+
+    public function repos() {
+        return $this->service->getReposFromUser(Config::get('travis.user'));
     }
 
     public function builds($repo_name)
