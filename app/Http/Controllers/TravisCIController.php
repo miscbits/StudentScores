@@ -13,29 +13,29 @@ class TravisCIController extends Controller
     }
 
     public function repos() {
-        return $this->service->getReposFromUser(Config::get('travis.user'));
+        return json_encode($this->service->getReposFromUser(Config::get('travis.user')));
     }
 
     public function builds($repo_name)
     {
-        return $this->service->getRepoBuilds($repo_name);
+        return json_encode($this->service->getRepoBuilds($repo_name));
     }
 
     public function pullRequests($repo_name) {
-        return $this->service->getRepoBuildsPullRequests($repo_name);
+        return json_encode($this->service->getRepoBuildsPullRequests($repo_name));
     }
 
     public function repository($repo_name)
     {
-        return $this->service->getRepo($repo_name);
+        return json_encode($this->service->getRepo($repo_name));
     }
 
     public function job($job_id) {
-        return $this->service->getJob($job_id);
+        return json_encode($this->service->getJob($job_id));
     }
 
     public function jobLog($job_id) {
-        return $this->service->getJobLog($job_id);
+        return json_encode($this->service->getJobLog($job_id));
     }
 
 }
