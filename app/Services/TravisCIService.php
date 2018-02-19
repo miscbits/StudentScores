@@ -98,7 +98,7 @@ class TravisCIService {
      * @return Collection
      */
     public function getJobLog($job_id) {
-        $request = new Request('GET', '/job/' . $job_id);
+        $request = new Request('GET', '/job/' . $job_id . '/log');
         $response = $this->guzzle->send($request, $this->config);
 
         $job_log = json_decode($response->getBody());
@@ -121,7 +121,7 @@ class TravisCIService {
     }
 
     /**
-     * GetJobLog
+     * Get Repos From User
      *
      * @return Collection
      */
