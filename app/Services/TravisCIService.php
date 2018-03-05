@@ -114,8 +114,8 @@ class TravisCIService {
             $offset = $matches[3][1];
         }
 
-        $job_log->total_tests = $total_tests;
-        $job_log->tests_passed = $tests_passed;
+        $job_log->total_tests = $total_tests/2;
+        $job_log->tests_passed = $tests_passed/2;
                 
         return $job_log;
     }
