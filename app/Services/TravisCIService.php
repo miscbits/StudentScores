@@ -44,8 +44,8 @@ class TravisCIService {
      *
      * @return Collection
      */
-    public function getRepo($repo_name) {
-        $request = new Request('GET', '/repo/' . $repo_name);
+    public function getRepo($repo_id) {
+        $request = new Request('GET', '/repo/' . $repo_id);
         $response = $this->guzzle->send($request, $this->config);
 
         return json_decode($response->getBody());
@@ -56,8 +56,8 @@ class TravisCIService {
      *
      * @return Collection
      */
-    public function getRepoBuilds($repo_name) {
-        $request = new Request('GET', '/repo/' . $repo_name . '/builds');
+    public function getRepoBuilds($repo_id) {
+        $request = new Request('GET', '/repo/' . $repo_id . '/builds');
         $response = $this->guzzle->send($request, $this->config);
 
         return json_decode($response->getBody());
@@ -68,8 +68,8 @@ class TravisCIService {
      *
      * @return Collection
      */
-    public function getRepoBuildsPullRequests($repo_name) {
-        $repos = $this->getRepoBuilds($repo_name);
+    public function getRepoBuildsPullRequests($repo_id) {
+        $repos = $this->getRepoBuilds($repo_id);
 
         $repo_builds = collect($repos->builds)->filter(function($build) {
             return $build->event_type == 'pull_request';
